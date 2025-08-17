@@ -219,8 +219,9 @@ const fetchCanvas = async (txVal, tyVal, pxVal, pyVal, width, height) => {
     const b = baseImage.data;
     const t = templateImage.data;
     for (let i = 0; i < t.length; i += 4) {
-        if (t[i + 3] === 0) continue;
-        if (b[i] !== t[i] || b[i + 1] !== t[i + 1] || b[i + 2] !== t[i + 2]) {
+        if (t[i + 3] === 0) continue; // skip transparent template pixels
+        // highlight if base canvas already has a non-white pixel underneath
+        if (!(b[i] === 255 && b[i + 1] === 255 && b[i + 2] === 255)) {
             const idx = i / 4;
             const x = idx % width;
             const y = Math.floor(idx / width);
