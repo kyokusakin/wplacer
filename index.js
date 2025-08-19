@@ -428,6 +428,8 @@ app.put("/template/:id", async (req, res) => {
     if (!req.params.id || !templates[req.params.id]) return res.sendStatus(400);
     const manager = templates[req.params.id];
     for (const i of Object.keys(req.body)) {
+        // Prevent prototype pollution
+        if (i === "__proto__" || i === "constructor" || i === "prototype") continue;
         if (i === "running") {
             if (req.body.running && !manager.running) {
                 try {
